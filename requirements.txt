@@ -1,6 +1,6 @@
 dash
 dash-bootstrap-components
-mariadb
+mysql-connector-python
 pandas
 plotly
 python-dotenv

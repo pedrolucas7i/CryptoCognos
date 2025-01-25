@@ -8,13 +8,9 @@ from datetime import datetime
 def analyse(price_history):
     df_h = price_history
     df = pd.DataFrame()
+
+    # Verificar se a coluna 'price' existe e se o DataFrame não está vazio
     if not df_h.empty and 'price' in df_h.columns:
-        # Garantir que a coluna 'price' é numérica
-        df_h['price'] = pd.to_numeric(df_h['price'], errors='coerce')
-        
-        # Remover valores inválidos (NaN) após conversão
-        df_h = df_h.dropna(subset=['price'])
-        
         print("Columns in DataFrame:", df_h.columns)
         
         # Calcular indicadores técnicos
@@ -34,6 +30,9 @@ def analyse(price_history):
 
         # Determinar sinal baseado em regras simples
         def determine_signal(row):
+            # Verificar se as colunas necessárias estão presentes
+            if pd.isna(row['RSI']) or pd.isna(row['price']) or pd.isna(row['BB_Low']) or pd.isna(row['BB_High']):
+                return 'Erro'  # Caso algum valor seja inválido
             if row['RSI'] < 30 and row['price'] < row['BB_Low']:
                 return 'Comprar'
             elif row['RSI'] > 70 and row['price'] > row['BB_High']:
@@ -50,8 +49,9 @@ def analyse(price_history):
         # Última análise
         latest_data = df.iloc[-1]
         print("Últimos Dados:")
-        print(latest_data.to_string() + "\n")  # Conversão para string
+        print(latest_data.to_string() + "\n")  # Conversão para string para visualização
 
+        # Retornar o sinal final com base na última análise
         if latest_data['Signal'] == 'Comprar':
             print("Indicação: O preço do DOGE tem potencial de subida com base nos indicadores técnicos.\n")
             return "Indicação: O preço do DOGE tem potencial de subida com base nos indicadores técnicos.\nBUY!"
@@ -61,3 +61,6 @@ def analyse(price_history):
         else:
             print("Indicação: Nenhuma tendência clara detectada.\n")
             return "Indicação: Nenhuma tendência clara detectada.\nKEEP!"
+    else:
+        print("Erro: O DataFrame está vazio ou não contém a coluna 'price'.")
+        return "Erro: O DataFrame está vazio ou não contém a coluna 'price'."

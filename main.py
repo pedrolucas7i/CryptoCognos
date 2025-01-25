@@ -5,7 +5,7 @@ import dbPool
 from analysers import DOGE
 from sqlalchemy import create_engine, Column, String, Integer, Float, Text
 from sqlalchemy.ext.declarative import declarative_base, DeclarativeMeta
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, declarative_base
 from dotenv import load_dotenv
 from sqlalchemy_utils import database_exists, create_database
 import pandas as pd
@@ -14,7 +14,7 @@ import os
 
 load_dotenv(".api")
 DOGE_PRICE = os.getenv("DOGE")
-dbPool.connect(True)
+dbPool.connect()
 Base = declarative_base()
 
 # Create database if not exist
@@ -228,16 +228,16 @@ def GetDBPriceHistorical():
         # Garantir que a coluna 'price' é numérica
         df['price'] = pd.to_numeric(df['price'], errors='coerce')
         
-        # Remover linhas inválidas após conversão
-        df = df.dropna(subset=['price'])
+        # Remover valores NaN
+        df = df.dropna(subset=['price'])  # Remover linhas com 'NaN' na coluna 'price'
         
     except Exception as e:
         print(f"Erro ao recuperar dados do banco de dados: {e}")
         df = pd.DataFrame()
     finally:
         session.close()
-    
-    return df
+        return df
+
 
 
 
