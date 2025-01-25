@@ -3,6 +3,7 @@ dash-bootstrap-components
 mysql-connector-python
 pandas
 plotly
+PyMySQL
 python-dotenv
 requests
 sqlalchemy
