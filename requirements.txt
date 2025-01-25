@@ -1,7 +1,9 @@
 dash
 dash-bootstrap-components
+mariadb
 pandas
 plotly
+python-dotenv
 requests
 sqlalchemy
 sqlalchemy_utils
