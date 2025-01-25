@@ -1,0 +1,8 @@
+dash
+dotenv
+pandas
+plotly
+requests
+sqlalchemy
+sqlalchemy_utils
+ta
