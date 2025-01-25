@@ -1,6 +1,6 @@
 dash
 dash-bootstrap-components
-mariadb==1.1.9
+mariadb
 pandas
 plotly
 python-dotenv
